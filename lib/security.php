@@ -43,7 +43,7 @@ function processLogin($username = '', $password = '')
 	} // end if (empty($username) || empty($password))
 
 	// get user
-	$user = $db->fetch("select * from `employee_info` where `email`='" . $db->escape($username) . "' limit 1;", 'row');
+	$user = $db->fetch("select * from `employees` where `email`='" . $db->escape($username) . "' limit 1;", 'row');
 
 	// if we have a user continue
 	if (!empty($user))
@@ -115,7 +115,7 @@ function setLoginCookies($id = 0)
 
 	// update the db
 	$db->update(
-		'employee_info',
+		'employees',
 		[
 			'token' => $token,
 			'secret' => $secret
@@ -146,7 +146,7 @@ function validateLogin($token = '', $secret = '')
 	} // end if (empty($token) || empty($secret))
 
 	// check for entry
-	$user = $db->fetch("select `id` from `employee_info` where `token`='" . $db->escape($token) . "' and `secret`='" . $db->escape($secret) . "'", 'one');
+	$user = $db->fetch("select `id` from `employees` where `token`='" . $db->escape($token) . "' and `secret`='" . $db->escape($secret) . "'", 'one');
 
 	// if we found a user update cookies
 	if (!empty($user))
@@ -184,7 +184,7 @@ function destroyLoginCookies($id = 0)
 
 	// if we have an id update it
 	if (!empty($id))
-		$db->update('employee_info', ['token' => '', 'secret' => ''], ['id' => intval($id)]);
+		$db->update('employees', ['token' => '', 'secret' => ''], ['id' => intval($id)]);
 
 	// reload
 	header("Location: /");

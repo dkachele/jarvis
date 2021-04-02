@@ -19,13 +19,8 @@ unset($_SERVER);
 // include security
 require_once('../lib/security.php');
 
-// define global vars
-$mode = ((isset($_GET['mode']) && !empty($_GET['mode'])) ? $_GET['mode'] : ((isset($_POST['mode']) && !empty($_POST['mode'])) ? $_POST['mode'] : 'employees'));
-$action = ((isset($_GET['action']) && !empty($_GET['action'])) ? $_GET['action'] : ((isset($_POST['action']) && !empty($_POST['action'])) ? $_POST['action'] : 'view'));
-unset($_GET['mode']);
-unset($_GET['action']);
-unset($_POST['mode']);
-unset($_POST['action']);
+// include vars
+require_once('../lib/vars.php');
 
 // process adds and edits
 if (!empty($_POST)
@@ -52,7 +47,15 @@ if (!empty($_GET)
 	&& $action == 'delete'
 ){
 	// remove record
-	$db->query("delete from `" . $mode . "` where `id` = " . intval($_GET['id']));
+	$db->update(
+		$mode,
+		[
+			'active' => 'N'
+		],
+		[
+			'id' => intval($_GET['id'])
+		]
+	);
 
 	// header
 	header("Location: /?mode=" . $mode);
@@ -60,11 +63,20 @@ if (!empty($_GET)
 
 } // end if (!empty($_POST) && $action == 'add')
 
+// if mode is proposal
+if ($mode === 'proposals')
+{
+	$_mode = $mode;
+	$mode = 'projects';
+}
+
 // get the results
 $sql = "select * from `" . $mode . "`";
 
 // initialize where array
-$where = [];
+$where = [
+	"`" . $mode . "`.`active` = 'Y'"
+];
 
 // add id sql
 if (isset($_GET['id']))
@@ -90,6 +102,7 @@ if (!empty($results))
 		if ($v === 'token'
 			|| $v === 'secret'
 			|| $v === 'id'
+			|| $v === 'active'
 		){
 			// unset header
 			unset($headers[$k]);
@@ -99,3 +112,12 @@ if (!empty($results))
 	} // end foreach ($headers as $k => $v)
 
 } // end if (!empty($results))
+
+// if we have an original mode go back to it
+if (!empty($_mode))
+{
+	// switcharoo
+	$mode = $_mode;
+	unset($_mode);
+
+} // end if (!empty($_mode))

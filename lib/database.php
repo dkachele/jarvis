@@ -48,7 +48,7 @@ class database {
 		}
 		catch (PDOException $e)
 		{
-			inscribe("not connected to db", true);
+			die("not connected to db");
 			return false;
 		}
 
@@ -115,12 +115,12 @@ class database {
 				sleep(1);
 
 				// log it
-				inscribe("Attempt #" . $n . " for query '" . $sql . "'");
+				echo "Attempt #" . $n . " for query '" . $sql . "'<br />\n";
 
 			} // end for ($n=0; $n<10; $n++)
 
 			if (!$result)
-				inscribe("Query failed: " . implode(":", $this->link->errorInfo()) . " \"" . $sql . "\"", true);
+				die("Query failed: " . implode(":", $this->link->errorInfo()) . " \"" . $sql . "\"");
 
 			return $result;
 
@@ -137,7 +137,7 @@ class database {
 		$result = $this->query($sql);
 
 		if (!$result)
-			inscribe("Query failed: " . implode(":", $this->link->errorInfo()) . " \"" . $sql . "\"");
+			echo "Query failed: " . implode(":", $this->link->errorInfo()) . " \"" . $sql . "\"<br />\n";
 
 		// switch type to determine output
 		switch ($type)
@@ -239,7 +239,7 @@ class database {
 		{ // else if (!empty($table) && !empty($data))
 
 			// if no options passed, pass comment to error handler
-			inscribe("empty fields in insert");
+			echo "empty fields in insert<br />\n";
 
 		} // end if (!empty($table) && !empty($data))
 
@@ -288,7 +288,7 @@ class database {
 		{ // else if (!empty($table) && !empty($data))
 
 			// if no options passed, pass comment to error handler
-			inscribe("empty fields in insert");
+			echo "empty fields in insert<br />\n";
 
 		} // end if (!empty($table) && !empty($data))
 

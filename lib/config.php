@@ -11,3 +11,14 @@ $nav_elements = [
 	'project_markets',
 	'statuses'
 ];
+
+// set global vars
+$global_vars = [
+	'mode' => 'projects',
+	'action' => 'view',
+	'status' => '',
+	'future_action' => 'add'
+];
+
+// initialize vars
+$found = false;

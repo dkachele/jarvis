@@ -189,7 +189,7 @@ class database {
 		if (!empty($resultArray))
 			return $resultArray;
 		else
-			return false;
+			return [];
 
 	} // end function fetch()
 

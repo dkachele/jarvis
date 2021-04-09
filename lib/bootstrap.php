@@ -63,20 +63,22 @@ if (!empty($_GET)
 
 } // end if (!empty($_POST) && $action == 'add')
 
+// initialize where array
+$where = [];
+
 // if mode is proposal
 if ($mode === 'proposals')
 {
 	$_mode = $mode;
 	$mode = 'projects';
+	$where[] = "`" . $mode . "`.`status_id` = 3";
 }
 
 // get the results
 $sql = "select * from `" . $mode . "`";
 
-// initialize where array
-$where = [
-	"`" . $mode . "`.`active` = 'Y'"
-];
+// add is active to where statement
+$where[] = "`" . $mode . "`.`active` = 'Y'";
 
 // add id sql
 if (isset($_GET['id']))
@@ -97,21 +99,86 @@ if (!empty($results))
 
 	// loop
 	foreach ($headers as $k => $v)
-	{
-		// if a sensitive header unset it
-		if ($v === 'token'
-			|| $v === 'secret'
-			|| $v === 'id'
-			|| $v === 'active'
-		){
-			// unset header
+		if (in_array($v, $suppress_headers))
 			unset($headers[$k]);
 
-		}
-
-	} // end foreach ($headers as $k => $v)
-
 } // end if (!empty($results))
+
+// if mode is projects remap vars
+if ($mode === 'projects'
+	&& !empty($results)
+){
+	// loop
+	foreach ($results as $k => $v)
+	{
+		// correct project manager
+		$results[$k]['project_manager_id'] = $v['project_manager'];
+		$results[$k]['project_manager'] = employeeShortName($employees, $v['project_manager']);
+
+		// correct hvac designer
+		$results[$k]['hvac_designer_id'] = $v['hvac_designer'];
+		$results[$k]['hvac_designer'] = employeeShortName($employees, $v['hvac_designer']);
+
+		// correct electrical engineer
+		$results[$k]['electrical_engineer_id'] = $v['electrical_engineer'];
+		$results[$k]['electrical_engineer'] = employeeShortName($employees, $v['electrical_engineer']);
+
+		// correct plumbing designer
+		$results[$k]['plumbing_designer_id'] = $v['plumbing_designer'];
+		$results[$k]['plumbing_designer'] = employeeShortName($employees, $v['plumbing_designer']);
+
+		// correct construction admin
+		$results[$k]['construction_administrator_id'] = $v['construction_administrator'];
+		$results[$k]['construction_administrator'] = employeeShortName($employees, $v['construction_administrator']);
+
+		// correct project market
+		$headers[] = 'phase';
+		$results[$k]['phase'] = $design_phases[$v['phase_id']]['design_phase'];
+
+		// correct project market
+		$headers[] = 'project_market';
+		$results[$k]['project_market'] = $project_markets[$v['project_market_id']]['project_market'];
+
+		// correct construction type
+		$headers[] = 'construction_type';
+		$results[$k]['construction_type'] = $construction_types[$v['construction_type_id']]['construction_type'];
+
+		// correct hvac system type
+		$headers[] = 'hvac_system_type';
+		$results[$k]['hvac_system_type'] = $hvac_system_types[$v['hvac_system_type_id']]['hvac_system_type'];
+
+		// correct status
+		array_unshift($headers , 'status');
+		$results[$k]['status'] = $statuses[$v['status_id']]['status'];
+
+		// correct client name
+		array_unshift($headers , 'client');
+		$results[$k]['client'] = $clients[$v['client_id']]['name'];
+
+		// correct employee name
+		array_unshift($headers , 'employee');
+		$results[$k]['employee'] = employeeShortName($employees, $v['employee_id']);
+
+		// unset empty values
+		foreach ($v as $_k => $_v)
+		{
+			// if empty or invalid date
+			if (empty($_v)
+				|| $_v === '1000-01-01'
+			){
+				// unset vars
+				unset($results[$k][$_k]);
+
+			} // end if (empty($_v) || $_v === '1000-01-01')
+
+		} // end foreach ($v as $_k => $_v)
+
+	} // end foreach ($results as $k => $v)
+
+} // end if ($mode === 'projects')
+
+// simplify
+$headers = array_unique($headers);
 
 // if we have an original mode go back to it
 if (!empty($_mode))

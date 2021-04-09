@@ -11,3 +11,9 @@ function format($str, $type = '')
 		return ucwords(str_replace("_", " ", $str));
 
 } // end function format($str)
+
+// get employees short name
+function employeeShortName($employees, $id)
+{
+	return $employees[$id]['first_name'] . ' ' . substr($employees[$id]['last_name'], 0, 1) . '.';
+}

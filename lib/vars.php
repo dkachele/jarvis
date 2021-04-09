@@ -17,5 +17,31 @@ if (!empty($global_vars))
 
 // get dropdown vars
 if (!empty($nav_elements))
+{
+	// loop
 	foreach ($nav_elements as $nav_element)
+	{
+		// get full list
 		$$nav_element = $db->fetch("select * from `" . $nav_element . "` where `active`='Y';");
+
+		// if we have results map to id
+		if (!empty($$nav_element))
+		{
+			// initialize empty array
+			$temp = [];
+
+			// loop
+			foreach ($$nav_element as $k => $v)
+				$temp[$v['id']] = $v;
+
+			// reset named array
+			$$nav_element = $temp;
+
+			// unset temp array
+			unset($temp);
+
+		} // end if (!empty($$nav_element))
+
+	} // end foreach ($nav_elements as $nav_element)
+
+} // end if (!empty($nav_elements))

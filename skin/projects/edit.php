@@ -114,52 +114,52 @@
 		<div class="col">
 			<div class="mb-3">
 				<label for="kickoff_date">Kickoff Date</label>
-				<input type="text" name="kickoff_date" value="<?php echo @$results[0]['kickoff_date']; ?>" class="form-control" id="kickoff_date" tabindex="2" />
+				<input type="text" name="kickoff_date" value="<?php echo @$results[0]['kickoff_date']; ?>" class="form-control datepicker" id="kickoff_date" tabindex="2" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="sd_date">SD Date</label>
-				<input type="text" name="sd_date" value="<?php echo @$results[0]['sd_date']; ?>" class="form-control" id="sd_date" tabindex="4" />
+				<input type="text" name="sd_date" value="<?php echo @$results[0]['sd_date']; ?>" class="form-control datepicker" id="sd_date" tabindex="4" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="dd_date">DD Date</label>
-				<input type="text" name="dd_date" value="<?php echo @$results[0]['dd_date']; ?>" class="form-control" id="dd_date" tabindex="6" />
+				<input type="text" name="dd_date" value="<?php echo @$results[0]['dd_date']; ?>" class="form-control datepicker" id="dd_date" tabindex="6" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="cd_qaqc_date">Checkset Date</label>
-				<input type="text" name="cd_qaqc_date" value="<?php echo @$results[0]['cd_qaqc_date']; ?>" class="form-control" id="cd_qaqc_date" tabindex="8" />
+				<input type="text" name="cd_qaqc_date" value="<?php echo @$results[0]['cd_qaqc_date']; ?>" class="form-control datepicker" id="cd_qaqc_date" tabindex="8" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="cd_date">CD Date</label>
-				<input type="text" name="cd_date" value="<?php echo @$results[0]['cd_date']; ?>" class="form-control" id="cd_date" tabindex="10" />
+				<input type="text" name="cd_date" value="<?php echo @$results[0]['cd_date']; ?>" class="form-control datepicker" id="cd_date" tabindex="10" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="bidding_date">Bidding Date</label>
-				<input type="text" name="bidding_date" value="<?php echo @$results[0]['bidding_date']; ?>" class="form-control" id="bidding_date" tabindex="12" />
+				<input type="text" name="bidding_date" value="<?php echo @$results[0]['bidding_date']; ?>" class="form-control datepicker" id="bidding_date" tabindex="12" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="completion_date">Completion Date</label>
-				<input type="text" name="completion_date" value="<?php echo @$results[0]['completion_date']; ?>" class="form-control" id="completion_date" tabindex="14" />
+				<input type="text" name="completion_date" value="<?php echo @$results[0]['completion_date']; ?>" class="form-control datepicker" id="completion_date" tabindex="14" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="hvac_constuction_cost">HVAC Constuction Cost</label>
-				<input type="text" name="hvac_constuction_cost" value="<?php echo @$results[0]['hvac_constuction_cost']; ?>" class="form-control" id="hvac_constuction_cost" tabindex="16" />
+				<input type="currency" name="hvac_constuction_cost" value="<?php echo @$results[0]['hvac_constuction_cost']; ?>" class="form-control" id="hvac_constuction_cost" tabindex="16" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="electrical_construction_cost">Electrical Constuction Cost</label>
-				<input type="text" name="electrical_construction_cost" value="<?php echo @$results[0]['electrical_construction_cost']; ?>" class="form-control" id="electrical_construction_cost" tabindex="18" />
+				<input type="currency" name="electrical_construction_cost" value="<?php echo @$results[0]['electrical_construction_cost']; ?>" class="form-control" id="electrical_construction_cost" tabindex="18" />
 			</div>
 			<br />
 			<div class="mb-3">
 				<label for="plumbing_contruction_cost">Plumbing Constuction Cost</label>
-				<input type="text" name="plumbing_contruction_cost" value="<?php echo @$results[0]['plumbing_contruction_cost']; ?>" class="form-control" id="plumbing_contruction_cost" tabindex="20" />
+				<input type="currency" name="plumbing_contruction_cost" value="<?php echo @$results[0]['plumbing_contruction_cost']; ?>" class="form-control" id="plumbing_contruction_cost" tabindex="20" />
 			</div>
 			<br />
 			<div class="mb-3">

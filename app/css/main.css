@@ -50,3 +50,7 @@ body#login {
 .nav-link.active {
 	font-weight: bold;
 }
+
+input[type="currency"]::after {
+	content: "$"
+}

@@ -36,7 +36,11 @@
 	<br />
 	<div class="mb-3">
 		<label for="exclusions">Exclusions</label>
-		<textarea class="form-control" name="exclusions" id="exclusions" rows="4" tabindex="4"></textarea>
+		<select name="exclusions" class="form-select" id="exclusions" multiple size="<?php echo ((count($exclusions) > 8) ? 8 : count($exclusions)); ?>">
+			<?php foreach ($exclusions as $k => $v) { ?>
+				<option value="<?php echo $v['id']; ?>"><?php echo $v['exclusion']; ?></option>
+			<?php } ?>
+		</select>
 	</div>
 	<br />
 	<div class="mb-3">
@@ -68,7 +72,6 @@
 			<br />
 			<div class="mb-3">
 				<label for="electrical_fee_percentage">Elecrical Fee %</label>
-				<input type="text" name="electrical_fee_percentage" id="electrical_fee_percentage" class="form-control" tabindex="14" />
 				<input type="number" name="electrical_fee_percentage" id="electrical_fee_percentage" class="form-control" tabindex="14" />
 			</div>
 			<br />

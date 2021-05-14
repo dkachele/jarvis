@@ -9,6 +9,7 @@ $nav_elements = [
 	'design_phases',
 	'hvac_system_types',
 	'project_markets',
+	'exclusions',
 	'statuses'
 ];
 

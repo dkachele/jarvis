@@ -28,6 +28,40 @@ if (!empty($_POST)
 		|| $action == 'edit'
 	)
 ){
+	// if it's a proposal calculate totals
+	if ($mode === 'projects')
+	{
+		// convert percentages to real numbers
+		if (!empty($_POST['hvac_fee_percentage']))
+			$_POST['hvac_constuction_cost'] = $_POST['total_fee'] * ($_POST['hvac_fee_percentage'] / 100);
+
+		// convert percentages to real numbers
+		if (!empty($_POST['electrical_fee_percentage']))
+			$_POST['electrical_construction_cost'] = $_POST['total_fee'] * ($_POST['electrical_fee_percentage'] / 100);
+
+		// convert percentages to real numbers
+		if (!empty($_POST['plumbing_fee_percentage']))
+			$_POST['plumbing_contruction_cost'] = $_POST['total_fee'] * ($_POST['plumbing_fee_percentage'] / 100);
+
+		// unset unused vars
+		unset($_POST['hvac_fee_percentage']);
+		unset($_POST['electrical_fee_percentage']);
+		unset($_POST['plumbing_fee_percentage']);
+
+		// process exclusions
+		if (!empty($_POST['exclusions']))
+		{
+			// loop
+			foreach ($_POST['exclusions'] as $k => $v)
+				$_POST['exclusions'][$k] = @$exclusions[$v]['exclusion'];
+
+			// stringify
+			$_POST['exclusions'] = implode("\n", $_POST['exclusions']);
+
+		} // end if (!empty($_POST['exclusions']))
+
+	} // end if ($mode === 'projects')
+
 	// insert new record
 	$db->insert(
 		$mode,

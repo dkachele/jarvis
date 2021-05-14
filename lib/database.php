@@ -297,11 +297,24 @@ class database {
 	// function to cleanup api string output for database insertion
 	public function escape($mixed)
 	{
+		// trim the input
+		if (!empty($mixed)
+			&& is_string($mixed)
+		){
+			// if this is currency scrub it
+			if (strpos($mixed, 0, 1) !== false)
+				$mixed = str_replace(["$", ",", " "], "", $mixed);
+
+			// trim the string
+			$mixed = trim($mixed);
+
+		} // end if (is_string($mixed))
+
 		// return objects
 		if (is_object($mixed))
 		{
 			// return it
-			return $mixed;
+			//return $mixed;
 
 		} // end if (is_object($mixed))
 
@@ -309,39 +322,50 @@ class database {
 		elseif (is_bool($mixed) === true)
 		{
 			// ensure it's a bool
-			return ($mixed === true) ? true: false;
-		}
+			$mixed = ($mixed === true) ? true: false;
 
-		// if a float process it
-		elseif (is_float($mixed) === true)
-		{
-			// ensure it's a float
-			return floatval($mixed);
-		}
+		} // end elseif (is_bool($mixed) === true)
 
-		// if a integer process it
-		elseif (is_int($mixed) === true)
+		// if this is numeric process it
+		elseif (is_numeric($mixed) === true)
 		{
-			// ensure it's an int
-			return intval($mixed);
-		}
+			// if a float process it
+			if (strpos($mixed, ".") !== false)
+			{
+				// ensure it's a float
+				$mixed = floatval($mixed);
+
+			} // end if (strpos($mixed, ".") !== false)
+
+			// if a integer process it
+			else
+			{
+				// ensure it's an int
+				$mixed = intval($mixed);
+
+			} // end else
+
+		} // end elseif (is_numeric($mixed) === true)
 
 		// if an array do things
-		if (is_array($mixed))
+		elseif (is_array($mixed))
 		{
 			foreach ($mixed as $key => $value)
 			{
 				unset($mixed[$key]);
 				$mixed[$this->escape($key)] = $this->escape($value);
-			}
-		}
+
+			} // end foreach ($mixed as $key => $value)
+
+		} // end elseif (is_array($mixed))
+
 		// if it is a string process it
 		else
 		{
 			// addslashes once
 			$mixed = addslashes(stripslashes($mixed));
 
-		}
+		} // end else
 
 		// return
 		return $mixed;

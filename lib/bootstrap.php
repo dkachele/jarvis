@@ -78,7 +78,7 @@ if ($mode === 'proposals')
 $sql = "select * from `" . $mode . "`";
 
 // add is active to where statement
-$where[] = "`" . $mode . "`.`active` = 'Y'";
+//$where[] = "`" . $mode . "`.`active` = 'Y'";
 
 // add id sql
 if (isset($_GET['id']))
@@ -103,6 +103,11 @@ if (!empty($results))
 			unset($headers[$k]);
 
 } // end if (!empty($results))
+
+// remove inactive rows
+foreach ($results as $k => $v)
+	if ($v['active'] === "N")
+		unset($results[$k]);
 
 // if mode is projects remap vars
 if ($mode === 'projects'
@@ -133,27 +138,27 @@ if ($mode === 'projects'
 
 		// correct project market
 		$headers[] = 'phase';
-		$results[$k]['phase'] = $design_phases[$v['phase_id']]['design_phase'];
+		$results[$k]['phase'] = @$design_phases[$v['phase_id']]['design_phase'];
 
 		// correct project market
 		$headers[] = 'project_market';
-		$results[$k]['project_market'] = $project_markets[$v['project_market_id']]['project_market'];
+		$results[$k]['project_market'] = @$project_markets[$v['project_market_id']]['project_market'];
 
 		// correct construction type
 		$headers[] = 'construction_type';
-		$results[$k]['construction_type'] = $construction_types[$v['construction_type_id']]['construction_type'];
+		$results[$k]['construction_type'] = @$construction_types[$v['construction_type_id']]['construction_type'];
 
 		// correct hvac system type
 		$headers[] = 'hvac_system_type';
-		$results[$k]['hvac_system_type'] = $hvac_system_types[$v['hvac_system_type_id']]['hvac_system_type'];
+		$results[$k]['hvac_system_type'] = @$hvac_system_types[$v['hvac_system_type_id']]['hvac_system_type'];
 
 		// correct status
 		array_unshift($headers , 'status');
-		$results[$k]['status'] = $statuses[$v['status_id']]['status'];
+		$results[$k]['status'] = @$statuses[$v['status_id']]['status'];
 
 		// correct client name
 		array_unshift($headers , 'client');
-		$results[$k]['client'] = $clients[$v['client_id']]['name'];
+		$results[$k]['client'] = @$clients[$v['client_id']]['name'];
 
 		// correct employee name
 		array_unshift($headers , 'employee');
@@ -178,7 +183,8 @@ if ($mode === 'projects'
 } // end if ($mode === 'projects')
 
 // simplify
-$headers = array_unique($headers);
+if (!empty($headers))
+	$headers = array_unique($headers);
 
 // if we have an original mode go back to it
 if (!empty($_mode))

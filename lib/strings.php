@@ -15,5 +15,9 @@ function format($str, $type = '')
 // get employees short name
 function employeeShortName($employees, $id)
 {
-	return $employees[$id]['first_name'] . ' ' . substr($employees[$id]['last_name'], 0, 1) . '.';
-}
+	if ($id > 0)
+		return $employees[$id]['first_name'] . ' ' . substr($employees[$id]['last_name'], 0, 1) . '.';
+	else
+		return '';
+
+} // end function employeeShortName($employees, $id)
